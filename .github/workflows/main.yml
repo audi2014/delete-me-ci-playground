@@ -9,12 +9,12 @@ concurrency:
   cancel-in-progress: true
 jobs:
   MyFancyJob:
+    # run after pr approval
+    # run manually from github ci 
+    # run by magic comment
     if: |
-      # run after pr approval
       (github.event_name == 'pull_request_review' && github.event.review.state == 'approved')
-      # run manually from github ci 
       || github.event_name == 'workflow_dispatch'
-      # run by magic comment
       || github.event.review.body == 'trigger ci'
     runs-on: ubuntu-latest
     steps:
