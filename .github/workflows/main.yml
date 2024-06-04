@@ -23,6 +23,5 @@ jobs:
           echo github.event_name = ${{ github.event_name }}
           echo github.event.review.state = ${{ github.event.review.state }}
           echo github.event.review.body = ${{ github.event.review.body }}
-          exit 1
       - uses: actions/checkout@v3
       # test5
