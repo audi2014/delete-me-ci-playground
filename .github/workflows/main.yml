@@ -8,6 +8,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   npm-install:
+    if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
     steps:
       - name: Reject if not approved
