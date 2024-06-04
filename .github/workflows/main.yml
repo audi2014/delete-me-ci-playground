@@ -15,7 +15,7 @@ jobs:
           github.event_name == 'pull_request_review'
           && github.event.review.state != 'approved'
         run: |
-          echo github.event.review.state
+          echo ${{ github.event.review.state }}
           exit 1
       - uses: actions/checkout@v3
       # test
