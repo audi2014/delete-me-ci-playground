@@ -10,10 +10,12 @@ concurrency:
 jobs:
   MyFancyJob:
     if: |
-      github.event_name == 'pull_request_review'
-      && github.event.review.state != 'approved'
-      && github.event_name != 'workflow_dispatch'
-      && github.event.review.body != 'trigger ci'
+      # run after pr approval
+      (github.event_name == 'pull_request_review' && github.event.review.state == 'approved')
+      # run manually from github ci 
+      || github.event_name == 'workflow_dispatch'
+      # run by magic comment
+      || github.event.review.body == 'trigger ci'
     runs-on: ubuntu-latest
     steps:
       - name: echo
