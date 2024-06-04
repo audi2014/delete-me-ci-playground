@@ -1,5 +1,6 @@
-name: CI
+name: MyFancyWorkflow
 on:
+  workflow_dispatch:
   pull_request_review:
     types:
       - submitted
@@ -7,16 +8,19 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  npm-install:
-    if: github.event.review.state == 'approved'
+  MyFancyJob:
+    if: |
+      github.event_name == 'pull_request_review'
+      && github.event.review.state != 'approved'
+      && github.event_name != 'workflow_dispatch'
+      && github.event.review.body != 'trigger ci'
     runs-on: ubuntu-latest
     steps:
-      - name: Reject if not approved
-        if: |
-          github.event_name == 'pull_request_review'
-          && github.event.review.state != 'approved'
+      - name: echo
         run: |
-          echo ${{ github.event.review.state }}
+          echo github.event_name = ${{ github.event_name }}
+          echo github.event.review.state = ${{ github.event.review.state }}
+          echo github.event.review.body = ${{ github.event.review.body }}
           exit 1
       - uses: actions/checkout@v3
       # test5
